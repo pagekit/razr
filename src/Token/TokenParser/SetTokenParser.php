@@ -4,7 +4,6 @@ namespace Razr\Token\TokenParser;
 
 use Razr\Node\SetNode;
 use Razr\Token\Token;
-use Razr\Exception\SyntaxErrorException;
 
 class SetTokenParser extends TokenParser
 {

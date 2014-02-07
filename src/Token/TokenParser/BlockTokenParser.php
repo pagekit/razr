@@ -2,12 +2,12 @@
 
 namespace Razr\Token\TokenParser;
 
-use Razr\Node\Node;
-use Razr\Node\PrintNode;
+use Razr\Exception\SyntaxErrorException;
 use Razr\Node\BlockNode;
 use Razr\Node\BlockReferenceNode;
+use Razr\Node\Node;
+use Razr\Node\PrintNode;
 use Razr\Token\Token;
-use Razr\Exception\SyntaxErrorException;
 
 class BlockTokenParser extends TokenParser
 {

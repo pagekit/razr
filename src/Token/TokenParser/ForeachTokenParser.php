@@ -2,9 +2,8 @@
 
 namespace Razr\Token\TokenParser;
 
-use Razr\Node\Node;
-use Razr\Node\ForeachNode;
 use Razr\Node\Expression\AssignNameNode;
+use Razr\Node\ForeachNode;
 use Razr\Token\Token;
 
 class ForeachTokenParser extends TokenParser

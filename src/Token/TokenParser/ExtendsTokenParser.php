@@ -2,8 +2,8 @@
 
 namespace Razr\Token\TokenParser;
 
-use Razr\Token\Token;
 use Razr\Exception\SyntaxErrorException;
+use Razr\Token\Token;
 
 class ExtendsTokenParser extends TokenParser
 {

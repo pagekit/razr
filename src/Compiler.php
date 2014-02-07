@@ -2,9 +2,9 @@
 
 namespace Razr;
 
-use Razr\Node\Node;
-use Razr\Node\ModuleNode;
 use Razr\Exception\LogicException;
+use Razr\Node\ModuleNode;
+use Razr\Node\Node;
 
 class Compiler
 {

@@ -2,8 +2,6 @@
 
 namespace Razr;
 
-use Razr\Node\Node;
-
 class SimpleFilter
 {
     protected $name;

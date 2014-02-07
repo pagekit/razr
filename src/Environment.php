@@ -2,17 +2,17 @@
 
 namespace Razr;
 
-use Razr\Loader\LoaderInterface;
-use Razr\Node\Node;
-use Razr\Token\TokenStream;
-use Razr\Token\TokenParser\TokenParserInterface;
-use Razr\Extension\CoreExtension;
-use Razr\Extension\StagingExtension;
-use Razr\Extension\ExtensionInterface;
+use Razr\Exception\InvalidArgumentException;
 use Razr\Exception\LogicException;
 use Razr\Exception\RuntimeException;
-use Razr\Exception\InvalidArgumentException;
 use Razr\Exception\UnexpectedValueException;
+use Razr\Extension\CoreExtension;
+use Razr\Extension\ExtensionInterface;
+use Razr\Extension\StagingExtension;
+use Razr\Loader\LoaderInterface;
+use Razr\Node\Node;
+use Razr\Token\TokenParser\TokenParserInterface;
+use Razr\Token\TokenStream;
 
 class Environment
 {

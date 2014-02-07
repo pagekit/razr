@@ -2,21 +2,18 @@
 
 namespace Razr;
 
-use Razr\Node\Node;
+use Razr\Exception\SyntaxErrorException;
 use Razr\Node\Expression\ArrayNode;
 use Razr\Node\Expression\AssignNameNode;
-use Razr\Node\Expression\BlockReferenceNode;
 use Razr\Node\Expression\ConditionalNode;
 use Razr\Node\Expression\ConstantNode;
-use Razr\Node\Expression\GetAttrNode;
-use Razr\Node\Expression\NameNode;
 use Razr\Node\Expression\FilterNode;
 use Razr\Node\Expression\FunctionNode;
-use Razr\Node\Expression\MethodCallNode;
+use Razr\Node\Expression\GetAttrNode;
+use Razr\Node\Expression\NameNode;
 use Razr\Node\Expression\ParentNode;
-use Razr\Node\Expression\Binary\ConcatNode;
+use Razr\Node\Node;
 use Razr\Token\Token;
-use Razr\Exception\SyntaxErrorException;
 
 class ExpressionParser
 {

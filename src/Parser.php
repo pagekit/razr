@@ -2,17 +2,17 @@
 
 namespace Razr;
 
-use Razr\Node\Node;
-use Razr\Node\NodeOutputInterface;
+use Razr\Exception\SyntaxErrorException;
 use Razr\Node\BlockNode;
 use Razr\Node\BlockReferenceNode;
 use Razr\Node\BodyNode;
 use Razr\Node\ModuleNode;
+use Razr\Node\Node;
+use Razr\Node\NodeOutputInterface;
 use Razr\Node\PrintNode;
 use Razr\Node\TextNode;
 use Razr\Token\Token;
 use Razr\Token\TokenStream;
-use Razr\Exception\SyntaxErrorException;
 
 class Parser
 {

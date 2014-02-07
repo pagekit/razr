@@ -3,8 +3,8 @@
 namespace Razr\Node\Expression\Unary;
 
 use Razr\Compiler;
-use Razr\Node\Node;
 use Razr\Node\Expression\ExpressionNode;
+use Razr\Node\Node;
 
 abstract class UnaryNode extends ExpressionNode
 {

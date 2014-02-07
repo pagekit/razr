@@ -3,8 +3,8 @@
 namespace Razr\Node\Expression;
 
 use Razr\Compiler;
-use Razr\SimpleFilter;
 use Razr\Node\Node;
+use Razr\SimpleFilter;
 
 class FilterNode extends CallNode
 {

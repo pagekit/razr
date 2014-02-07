@@ -3,8 +3,8 @@
 namespace Razr\Node\Expression;
 
 use Razr\Compiler;
-use Razr\SimpleFunction;
 use Razr\Node\Node;
+use Razr\SimpleFunction;
 
 class FunctionNode extends CallNode
 {

@@ -2,10 +2,10 @@
 
 namespace Razr\Token\TokenParser;
 
-use Razr\Node\Node;
-use Razr\Node\IfNode;
-use Razr\Token\Token;
 use Razr\Exception\SyntaxErrorException;
+use Razr\Node\IfNode;
+use Razr\Node\Node;
+use Razr\Token\Token;
 
 class IfTokenParser extends TokenParser
 {

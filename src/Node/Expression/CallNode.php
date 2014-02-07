@@ -3,9 +3,9 @@
 namespace Razr\Node\Expression;
 
 use Razr\Compiler;
-use Razr\Extension\ExtensionInterface;
 use Razr\Exception\LogicException;
 use Razr\Exception\SyntaxErrorException;
+use Razr\Extension\ExtensionInterface;
 
 abstract class CallNode extends ExpressionNode
 {

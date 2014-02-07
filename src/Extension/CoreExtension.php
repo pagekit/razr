@@ -3,20 +3,19 @@
 namespace Razr\Extension;
 
 use Razr\Environment;
-use Razr\ExpressionParser;
+use Razr\Exception\InvalidArgumentException;
+use Razr\Exception\RuntimeException;
+use Razr\Operator\BinaryOperator;
+use Razr\Operator\UnaryOperator;
 use Razr\SimpleFilter;
 use Razr\SimpleFunction;
 use Razr\Template;
-use Razr\Operator\UnaryOperator;
-use Razr\Operator\BinaryOperator;
 use Razr\Token\TokenParser\BlockTokenParser;
 use Razr\Token\TokenParser\ExtendsTokenParser;
 use Razr\Token\TokenParser\ForeachTokenParser;
 use Razr\Token\TokenParser\IfTokenParser;
 use Razr\Token\TokenParser\SetTokenParser;
 use Razr\Token\TokenParser\WhileTokenParser;
-use Razr\Exception\RuntimeException;
-use Razr\Exception\InvalidArgumentException;
 
 class CoreExtension extends Extension
 {
@@ -124,22 +123,22 @@ class CoreExtension extends Extension
             new SimpleFilter('round', array($this, 'roundNumber')),
 
             // encoding
-            new SimpleFilter('url_encode', array($this, 'encodeUrl')),
             new SimpleFilter('json_encode', 'json_encode'),
+            new SimpleFilter('url_encode', array($this, 'encodeUrl')),
 
             // string filters
+            new SimpleFilter('lower', 'strtolower'),
+            new SimpleFilter('nl2br', 'nl2br'),
+            new SimpleFilter('striptags', 'strip_tags'),
             new SimpleFilter('trim', 'trim'),
             new SimpleFilter('upper', 'strtoupper'),
-            new SimpleFilter('lower', 'strtolower'),
-            new SimpleFilter('striptags', 'strip_tags'),
-            new SimpleFilter('nl2br', 'nl2br'),
 
             // array helpers
+            new SimpleFilter('explode', array($this, 'explodeArray')),
+            new SimpleFilter('implode', array($this, 'implodeArray')),
             new SimpleFilter('keys', array($this, 'keysArray')),
             new SimpleFilter('merge', array($this, 'mergeArray')),
             new SimpleFilter('slice', array($this, 'sliceArray')),
-            new SimpleFilter('implode', array($this, 'implodeArray')),
-            new SimpleFilter('explode', array($this, 'explodeArray')),
 
             // string/array helpers
             new SimpleFilter('length', array($this, 'length')),
@@ -158,10 +157,10 @@ class CoreExtension extends Extension
             new SimpleFunction('max', 'max'),
             new SimpleFunction('min', 'min'),
             new SimpleFunction('range', 'range'),
-            new SimpleFunction('date', array($this, 'getDateTime')),
             new SimpleFunction('constant', array($this, 'getConstant')),
+            new SimpleFunction('date', array($this, 'getDateTime')),
+            new SimpleFunction('dump', array($this, 'varDump')),
             new SimpleFunction('include', array($this, 'includeTemplate'), array('needs_environment' => true, 'needs_context' => true)),
-            new SimpleFunction('dump', array($this, 'varDump'), array('needs_environment' => true, 'needs_context' => true)),
         );
     }
 
@@ -374,13 +373,13 @@ class CoreExtension extends Extension
         return $env->loadTemplate($template)->render(array_merge($context, $variables));
     }
 
-    public function varDump(Environment $env, $context)
+    public function varDump($context)
     {
         ob_start();
 
         $count = func_num_args();
 
-        if (2 === $count) {
+        if (1 === $count) {
 
             $vars = array();
 
@@ -393,7 +392,7 @@ class CoreExtension extends Extension
             var_dump($vars);
 
         } else {
-            for ($i = 2; $i < $count; $i++) {
+            for ($i = 1; $i < $count; $i++) {
                 var_dump(func_get_arg($i));
             }
         }

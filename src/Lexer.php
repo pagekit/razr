@@ -2,9 +2,9 @@
 
 namespace Razr;
 
+use Razr\Exception\SyntaxErrorException;
 use Razr\Token\Token;
 use Razr\Token\TokenStream;
-use Razr\Exception\SyntaxErrorException;
 
 class Lexer
 {
