@@ -135,12 +135,14 @@ class CoreExtension extends Extension
             new SimpleFilter('nl2br', 'nl2br'),
 
             // array helpers
-            new SimpleFilter('count', 'count'),
             new SimpleFilter('keys', array($this, 'keysArray')),
             new SimpleFilter('merge', array($this, 'mergeArray')),
             new SimpleFilter('slice', array($this, 'sliceArray')),
             new SimpleFilter('implode', array($this, 'implodeArray')),
             new SimpleFilter('explode', array($this, 'explodeArray')),
+
+            // string/array helpers
+            new SimpleFilter('length', array($this, 'length')),
 
             // escaping
             new SimpleFilter('e', array($this, 'escape')),
@@ -338,6 +340,11 @@ class CoreExtension extends Extension
         }
 
         return null === $limit ? explode($delimiter, $value) : explode($delimiter, $value, $limit);
+    }
+
+    public function length($value)
+    {
+        return is_scalar($value) ? strlen($value) : count($value);
     }
 
     public function escape($value, $strategy = 'html', $charset = null)
