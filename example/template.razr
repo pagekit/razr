@@ -61,8 +61,8 @@
         <!-- new line to br -->
         <p>@( "new\nline"|nl2br )</p>
 
-        <!-- array count -->
-        <p>@( [1,2,3]|count )</p>
+        <!-- array length -->
+        <p>@( [1,2,3]|length )</p>
 
         <!-- array keys -->
         <p>@( ['a' => 1, 'b' => '2']|keys|implode(',') )</p>

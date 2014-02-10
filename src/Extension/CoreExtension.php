@@ -159,7 +159,7 @@ class CoreExtension extends Extension
             new SimpleFunction('range', 'range'),
             new SimpleFunction('constant', array($this, 'getConstant')),
             new SimpleFunction('date', array($this, 'getDateTime')),
-            new SimpleFunction('dump', array($this, 'varDump')),
+            new SimpleFunction('dump', array($this, 'varDump'), array('needs_context' => true)),
             new SimpleFunction('include', array($this, 'includeTemplate'), array('needs_environment' => true, 'needs_context' => true)),
         );
     }

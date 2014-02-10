@@ -2,7 +2,8 @@
 
 spl_autoload_register(function($class) {
 
-    $path = realpath(__DIR__.'/../src/').'/';
+    $class = str_replace('Razr\\', '', $class);
+    $path  = realpath(__DIR__.'/../src/').'/';
 
     if (($namespace = strrpos($class = ltrim($class, '\\'), '\\')) !== false) {
         $path .= strtr(substr($class, 0, ++$namespace), '\\', '/');
