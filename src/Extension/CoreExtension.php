@@ -138,10 +138,10 @@ class CoreExtension extends Extension
             new SimpleFilter('implode', array($this, 'implodeArray')),
             new SimpleFilter('keys', array($this, 'keysArray')),
             new SimpleFilter('merge', array($this, 'mergeArray')),
-            new SimpleFilter('slice', array($this, 'sliceArray')),
 
             // string/array helpers
             new SimpleFilter('length', array($this, 'length')),
+            new SimpleFilter('slice', array($this, 'slice')),
 
             // escaping
             new SimpleFilter('e', array($this, 'escape')),
@@ -314,11 +314,16 @@ class CoreExtension extends Extension
         return array_merge($arr1, $arr2);
     }
 
-    public function sliceArray($array, $offset, $length = null, $preserveKeys = false)
+    public function slice($array, $offset, $length = null, $preserveKeys = false)
     {
 
         if (is_string($array)) {
-            return $length ? substr($array, $offset, $length) : substr($array, $offset);
+
+            if (function_exists('mb_get_info') && null !== $charset = $this->env->getCharset()) {
+                return mb_substr($array, $offset, null === $length ? mb_strlen($array, $charset) - $offset : $length, $charset);
+            }
+
+            return null === $length ? substr($array, $offset) : substr($array, $offset, $length);
         }
 
         if (is_object($array) && $array instanceof \Traversable) {
