@@ -316,6 +316,11 @@ class CoreExtension extends Extension
 
     public function sliceArray($array, $offset, $length = null, $preserveKeys = false)
     {
+
+        if (is_string($array)) {
+            return $length ? substr($array, $offset, $length) : substr($array, $offset);
+        }
+
         if (is_object($array) && $array instanceof \Traversable) {
             $array = iterator_to_array($array, false);
         }
