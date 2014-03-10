@@ -4,6 +4,9 @@ namespace Razr\Node\Expression;
 
 use Razr\Compiler;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class ParentNode extends ExpressionNode
 {
     public function __construct($name, $lineno, $tag = null)

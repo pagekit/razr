@@ -9,6 +9,9 @@ use Razr\Node\Node;
 use Razr\Node\PrintNode;
 use Razr\Token\Token;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class BlockTokenParser extends TokenParser
 {
     public function getTag()

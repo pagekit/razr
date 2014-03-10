@@ -4,6 +4,9 @@ namespace Razr\Token;
 
 use Razr\Exception\SyntaxErrorException;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class TokenStream
 {
     protected $tokens;

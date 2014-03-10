@@ -6,6 +6,9 @@ use Razr\Compiler;
 use Razr\Node\Expression\ExpressionNode;
 use Razr\Node\Node;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 abstract class BinaryNode extends ExpressionNode
 {
     public function __construct(Node $left, Node $right, $lineno)

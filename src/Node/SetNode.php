@@ -4,6 +4,9 @@ namespace Razr\Node;
 
 use Razr\Compiler;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class SetNode extends Node
 {
     public function __construct(Node $names, Node $values, $lineno, $tag = null)

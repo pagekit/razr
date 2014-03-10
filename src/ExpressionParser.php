@@ -15,6 +15,9 @@ use Razr\Node\Expression\ParentNode;
 use Razr\Node\Node;
 use Razr\Token\Token;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class ExpressionParser
 {
     protected $parser;

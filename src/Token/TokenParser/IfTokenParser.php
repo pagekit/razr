@@ -7,6 +7,9 @@ use Razr\Node\IfNode;
 use Razr\Node\Node;
 use Razr\Token\Token;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class IfTokenParser extends TokenParser
 {
     public function getTag()

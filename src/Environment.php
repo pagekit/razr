@@ -14,6 +14,9 @@ use Razr\Node\Node;
 use Razr\Token\TokenParser\TokenParserInterface;
 use Razr\Token\TokenStream;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class Environment
 {
     const VERSION = '0.9.0';

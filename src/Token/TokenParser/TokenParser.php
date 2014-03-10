@@ -4,6 +4,9 @@ namespace Razr\Token\TokenParser;
 
 use Razr\Parser;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 abstract class TokenParser implements TokenParserInterface
 {
     /**

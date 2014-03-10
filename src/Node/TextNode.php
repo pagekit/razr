@@ -4,6 +4,9 @@ namespace Razr\Node;
 
 use Razr\Compiler;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class TextNode extends Node implements NodeOutputInterface
 {
     public function __construct($data, $lineno)

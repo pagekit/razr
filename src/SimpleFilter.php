@@ -2,6 +2,9 @@
 
 namespace Razr;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class SimpleFilter
 {
     protected $name;

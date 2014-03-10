@@ -4,6 +4,9 @@ namespace Razr\Node\Expression;
 
 use Razr\Compiler;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class ConditionalNode extends ExpressionNode
 {
     public function __construct(ExpressionNode $expr1, ExpressionNode $expr2, ExpressionNode $expr3, $lineno)

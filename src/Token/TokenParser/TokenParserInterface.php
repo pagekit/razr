@@ -5,6 +5,9 @@ namespace Razr\Token\TokenParser;
 use Razr\Parser;
 use Razr\Token\Token;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 interface TokenParserInterface
 {
     /**

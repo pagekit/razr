@@ -6,6 +6,9 @@ use Razr\Exception\SyntaxErrorException;
 use Razr\Token\Token;
 use Razr\Token\TokenStream;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class Lexer
 {
     const STATE_DATA            = 0;

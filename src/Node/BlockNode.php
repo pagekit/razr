@@ -4,6 +4,9 @@ namespace Razr\Node;
 
 use Razr\Compiler;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class BlockNode extends Node
 {
     public function __construct($name, Node $body, $lineno, $tag = null)

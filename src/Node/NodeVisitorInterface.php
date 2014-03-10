@@ -4,6 +4,9 @@ namespace Razr\Node;
 
 use Razr\Environment;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 interface NodeVisitorInterface
 {
     /**

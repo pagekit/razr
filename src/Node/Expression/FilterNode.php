@@ -6,6 +6,9 @@ use Razr\Compiler;
 use Razr\Node\Node;
 use Razr\SimpleFilter;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class FilterNode extends CallNode
 {
     public function __construct(Node $node, ConstantNode $filter, Node $arguments, $lineno, $tag = null)

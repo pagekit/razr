@@ -6,6 +6,9 @@ use Razr\Exception\LogicException;
 use Razr\Node\ModuleNode;
 use Razr\Node\Node;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class Compiler
 {
     protected $env;

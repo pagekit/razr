@@ -4,6 +4,9 @@ namespace Razr\Node\Expression;
 
 use Razr\Compiler;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class NameNode extends ExpressionNode
 {
     protected $specialVars = array(

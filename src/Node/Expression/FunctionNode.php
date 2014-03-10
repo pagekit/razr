@@ -6,6 +6,9 @@ use Razr\Compiler;
 use Razr\Node\Node;
 use Razr\SimpleFunction;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class FunctionNode extends CallNode
 {
     public function __construct($name, Node $arguments, $lineno)

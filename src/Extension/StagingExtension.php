@@ -4,6 +4,9 @@ namespace Razr\Extension;
 
 use Razr\Token\TokenParser\TokenParserInterface;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class StagingExtension extends Extension
 {
     protected $functions = array();

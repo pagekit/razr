@@ -4,6 +4,9 @@ namespace Razr\Exception;
 
 use Razr\Template;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class Exception extends \Exception implements ExceptionInterface
 {
     protected $lineno;

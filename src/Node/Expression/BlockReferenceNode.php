@@ -4,6 +4,9 @@ namespace Razr\Node\Expression;
 
 use Razr\Compiler;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class BlockReferenceNode extends ExpressionNode
 {
     public function __construct(Node $name, $asString = false, $lineno, $tag = null)

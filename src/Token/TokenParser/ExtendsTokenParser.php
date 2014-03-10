@@ -5,6 +5,9 @@ namespace Razr\Token\TokenParser;
 use Razr\Exception\SyntaxErrorException;
 use Razr\Token\Token;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class ExtendsTokenParser extends TokenParser
 {
     public function getTag()

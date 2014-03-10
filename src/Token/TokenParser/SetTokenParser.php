@@ -5,6 +5,9 @@ namespace Razr\Token\TokenParser;
 use Razr\Node\SetNode;
 use Razr\Token\Token;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class SetTokenParser extends TokenParser
 {
     public function getTag()

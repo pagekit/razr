@@ -4,6 +4,9 @@ namespace Razr\Token;
 
 use Razr\Exception\LogicException;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class Token
 {
     const EOF         = 0;

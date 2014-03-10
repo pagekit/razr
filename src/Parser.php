@@ -14,6 +14,9 @@ use Razr\Node\TextNode;
 use Razr\Token\Token;
 use Razr\Token\TokenStream;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class Parser
 {
     protected $env;

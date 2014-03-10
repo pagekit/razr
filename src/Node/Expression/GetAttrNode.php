@@ -5,6 +5,9 @@ namespace Razr\Node\Expression;
 use Razr\Compiler;
 use Razr\Template;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class GetAttrNode extends ExpressionNode
 {
     public function __construct(ExpressionNode $node, ExpressionNode $attribute, ArrayNode $arguments, $type, $lineno)

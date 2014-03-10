@@ -6,6 +6,9 @@ use Razr\Compiler;
 use Razr\Node\Expression\AssignNameNode;
 use Razr\Node\Expression\ExpressionNode;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class ForeachNode extends Node
 {
     public function __construct(AssignNameNode $key_target, AssignNameNode $value_target, ExpressionNode $seq, Node $body, $lineno, $tag = null)

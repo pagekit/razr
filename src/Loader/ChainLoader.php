@@ -4,6 +4,9 @@ namespace Razr\Loader;
 
 use Razr\Exception\RuntimeException;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class ChainLoader implements LoaderInterface
 {
     protected $loaders = array();

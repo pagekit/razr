@@ -17,6 +17,9 @@ use Razr\Token\TokenParser\IfTokenParser;
 use Razr\Token\TokenParser\SetTokenParser;
 use Razr\Token\TokenParser\WhileTokenParser;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class CoreExtension extends Extension
 {
     protected $env;

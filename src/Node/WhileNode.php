@@ -5,6 +5,9 @@ namespace Razr\Node;
 use Razr\Compiler;
 use Razr\Node\Expression\ExpressionNode;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class WhileNode extends Node
 {
     public function __construct(ExpressionNode $expr, Node $body, $lineno, $tag = null)

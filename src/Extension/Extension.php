@@ -4,6 +4,9 @@ namespace Razr\Extension;
 
 use Razr\Environment;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 abstract class Extension implements ExtensionInterface
 {
     public function initRuntime(Environment $environment)

@@ -5,6 +5,9 @@ namespace Razr;
 use Razr\Exception\Exception;
 use Razr\Exception\RuntimeException;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 abstract class Template
 {
     const ANY_CALL    = 'any';

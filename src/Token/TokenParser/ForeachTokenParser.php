@@ -6,6 +6,9 @@ use Razr\Node\Expression\AssignNameNode;
 use Razr\Node\ForeachNode;
 use Razr\Token\Token;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class ForeachTokenParser extends TokenParser
 {
     public function getTag()

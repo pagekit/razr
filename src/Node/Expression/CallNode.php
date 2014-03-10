@@ -7,6 +7,9 @@ use Razr\Exception\LogicException;
 use Razr\Exception\SyntaxErrorException;
 use Razr\Extension\ExtensionInterface;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 abstract class CallNode extends ExpressionNode
 {
     protected function compileCallable(Compiler $compiler)

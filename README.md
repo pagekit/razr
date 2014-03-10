@@ -121,7 +121,7 @@ You can use loop statements like `foreach` and `while`.
 
 ## Credits
 
-The template engine code is based on the Twig template engine by the Twig Team (BSD License).
+The template engine code is based on the Twig template engine by the [Twig Team (BSD License)](https://github.com/fabpot/Twig/blob/master/LICENSE).
 
 ## Copyright and license
 

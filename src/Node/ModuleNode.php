@@ -6,6 +6,9 @@ use Razr\Compiler;
 use Razr\Node\Expression\ConstantNode;
 use Razr\Node\Expression\ExpressionNode;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class ModuleNode extends Node
 {
     public function __construct(Node $body, ExpressionNode $parent = null, Node $blocks, $filename)

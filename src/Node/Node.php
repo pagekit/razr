@@ -5,6 +5,9 @@ namespace Razr\Node;
 use Razr\Compiler;
 use Razr\Exception\LogicException;
 
+/**
+ * @copyright Copyright (c) 2009-2014 by the Twig Team
+ */
 class Node implements \Countable, \IteratorAggregate
 {
     protected $nodes;
