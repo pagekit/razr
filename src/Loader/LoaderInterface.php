@@ -2,9 +2,6 @@
 
 namespace Razr\Loader;
 
-/**
- * @copyright Copyright (c) 2009-2014 by the Twig Team
- */
 interface LoaderInterface
 {
     /**
