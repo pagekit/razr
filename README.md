@@ -20,7 +20,7 @@ echo $razr->render('hello.razr.php', array('name' => 'World'));
 
 ## Syntax
 
-The Razr syntax uses `@` as special character. It is used to indicate a dynamic statement for the template engine. The following statements are supported.
+The Razr syntax uses `@` as special character. It is used to indicate a dynamic statement for the template engine. Within the `@()` notation you may use regular PHP. The following statements are supported.
 
 ### Variables
 
