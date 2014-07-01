@@ -2,306 +2,189 @@
 
 namespace Razr;
 
-use Razr\Exception\SyntaxErrorException;
-use Razr\Node\BlockNode;
-use Razr\Node\BlockReferenceNode;
-use Razr\Node\BodyNode;
-use Razr\Node\ModuleNode;
-use Razr\Node\Node;
-use Razr\Node\NodeOutputInterface;
-use Razr\Node\PrintNode;
-use Razr\Node\TextNode;
-use Razr\Token\Token;
-use Razr\Token\TokenStream;
-
-/**
- * @copyright Copyright (c) 2009-2014 by the Twig Team
- */
 class Parser
 {
-    protected $env;
+    protected $engine;
     protected $stream;
-    protected $parent;
-    protected $handlers;
-    protected $blocks;
-    protected $blockStack;
-    protected $expressionParser;
-    protected $stack = array();
+    protected $filename;
+    protected $variables;
 
-    public function __construct(Environment $env)
+    /**
+     * Constructor.
+     *
+     * @param Engine $engine
+     */
+    public function __construct(Engine $engine)
     {
-        $this->env = $env;
+        $this->engine = $engine;
     }
 
-    public function getEnvironment()
+    /**
+     * Parsing method.
+     *
+     * @param  TokenStream $stream
+     * @param  string      $filename
+     * @return string
+     */
+    public function parse($stream, $filename = null)
     {
-        return $this->env;
-    }
-
-    public function getVarName()
-    {
-        return sprintf('__internal_%s', sha1(uniqid(mt_rand(), true)));
-    }
-
-    public function getFilename()
-    {
-        return $this->stream->getFilename();
-    }
-
-    public function parse(TokenStream $stream, $test = null, $dropNeedle = false)
-    {
-        // push all variables into the stack to keep the current state of the parser
-        $vars = get_object_vars($this);
-        unset($vars['stack'], $vars['env'], $vars['handlers'], $vars['expressionParser']);
-        $this->stack[] = $vars;
-
-        // tag handlers
-        if (null === $this->handlers) {
-            foreach ($this->handlers = $this->env->getTokenParsers() as $handler) {
-                $handler->setParser($this);
-            }
-        }
-
-        if (null === $this->expressionParser) {
-            $this->expressionParser = new ExpressionParser($this, $this->env->getUnaryOperators(), $this->env->getBinaryOperators());
-        }
-
         $this->stream = $stream;
-        $this->parent = null;
-        $this->blocks = array();
-        $this->blockStack = array();
+        $this->filename = $filename;
+        $this->variables = array();
 
-        try {
+        return $this->parseMain();
+    }
 
-            $body = $this->subparse($test, $dropNeedle);
+    /**
+     * Parse main.
+     *
+     * @return string
+     */
+    public function parseMain()
+    {
+        $out = '';
 
-            if (null !== $this->parent) {
-                if (null === $body = $this->filterBodyNodes($body)) {
-                    $body = new Node;
+        while ($token = $this->stream->next()) {
+            if ($token->test(T_COMMENT, '/* OUTPUT */')) {
+                $out .= $this->parseOutput();
+            } elseif ($token->test(T_COMMENT, '/* DIRECTIVE */')) {
+                $out .= $this->parseDirective();
+            } else {
+                $out .= $token->getValue();
+            }
+        }
+
+        if ($this->variables) {
+            $info = sprintf('<?php /* %s */ extract(%s, EXTR_SKIP) ?>', $this->filename, str_replace("\n", '', var_export($this->variables, true)));
+        } else {
+            $info = sprintf('<?php /* %s */ ?>', $this->filename);
+        }
+
+        return $info.$out;
+    }
+
+    /**
+     * Parse output.
+     *
+     * @return string
+     */
+    public function parseOutput()
+    {
+        $out = "echo \$this->escape(";
+
+        while (!$this->stream->test(T_CLOSE_TAG)) {
+            $out .= $this->parseExpression();
+        }
+
+        return "$out) ";
+    }
+
+    /**
+     * Parse directive.
+     *
+     * @return string
+     */
+    public function parseDirective()
+    {
+        $out = '';
+
+        foreach ($this->engine->getDirectives() as $directive) {
+            if ($out = $directive->parse($this->stream, $this->stream->get())) {
+                break;
+            }
+        }
+
+        return $out;
+    }
+
+    /**
+     * Parse expression.
+     *
+     * @return string
+     */
+    public function parseExpression()
+    {
+        $out = '';
+        $brackets = array();
+
+        do {
+
+            if ($token = $this->stream->nextIf(T_STRING)) {
+
+                $name = $token->getValue();
+
+                if ($this->stream->test('(') && $this->engine->getFunction($name)) {
+                    $out .= sprintf("\$this->callFunction('%s', array%s)", $name, $this->parseExpression());
+                } else {
+                    $out .= $name;
                 }
+
+            } elseif ($token = $this->stream->nextIf(T_VARIABLE)) {
+
+                $out .= $this->parseSubscript($var = $token->getValue());
+                $this->variables[ltrim($var, '$')] = null;
+
+            } else {
+
+                $token = $this->stream->next();
+
+                if ($token->test(array('(', '['))) {
+                    array_push($brackets, $token);
+                } elseif ($token->test(array(')', ']'))) {
+                    array_pop($brackets);
+                }
+
+                $out .= $token->getValue();
             }
 
-        } catch (SyntaxErrorException $e) {
+        } while (!empty($brackets));
 
-            if (!$e->getTemplateFile()) {
-                $e->setTemplateFile($this->getFilename());
-            }
-
-            if (!$e->getTemplateLine()) {
-                $e->setTemplateLine($this->stream->getCurrent()->getLine());
-            }
-
-            throw $e;
-        }
-
-        $node = new ModuleNode(new BodyNode(array($body)), $this->parent, new Node($this->blocks), $this->getFilename());
-
-        // restore previous stack so previous parse() call can resume working
-        foreach (array_pop($this->stack) as $key => $val) {
-            $this->$key = $val;
-        }
-
-        return $node;
-    }
-
-    public function subparse($test, $dropNeedle = false)
-    {
-        $lineno = $this->getCurrentToken()->getLine();
-        $rv = array();
-
-        while (!$this->stream->isEOF()) {
-            switch ($this->getCurrentToken()->getType()) {
-
-                case Token::TEXT:
-
-                    $token = $this->stream->next();
-                    $rv[]  = new TextNode($token->getValue(), $token->getLine());
-                    break;
-
-                case Token::VAR_START:
-
-                    $token = $this->stream->next();
-                    $expr  = $this->expressionParser->parseExpression();
-                    $this->stream->expect(Token::VAR_END);
-                    $rv[] = new PrintNode($expr, $token->getLine());
-                    break;
-
-                case Token::BLOCK_START:
-
-                    $this->stream->next();
-                    $token = $this->getCurrentToken();
-
-                    if (null !== $test && call_user_func($test, $token)) {
-
-                        if ($dropNeedle) {
-                            $this->stream->next();
-                        }
-
-                        if (1 === count($rv)) {
-                            return $rv[0];
-                        }
-
-                        return new Node($rv, array(), $lineno);
-                    }
-
-                    $subparser = isset($this->handlers[$token->getValue()]) ? $this->handlers[$token->getValue()] : null;
-
-                    if (null === $subparser) {
-
-                        if (null !== $test) {
-
-                            $error = sprintf('Unexpected tag name "%s"', $token->getValue());
-
-                            if (is_array($test) && isset($test[0]) && $test[0] instanceof TokenParserInterface) {
-                                $error .= sprintf(' (expecting closing tag for the "%s" tag defined near line %s)', $test[0]->getTag(), $lineno);
-                            }
-
-                            throw new SyntaxErrorException($error, $token->getLine(), $this->getFilename());
-                        }
-
-                        $message = sprintf('Unknown tag name "%s"', $token->getValue());
-
-                        if ($alt = $this->env->computeAlternatives($token->getValue(), array_keys($this->env->getTags()))) {
-                            $message = sprintf('%s. Did you mean "%s"', $message, implode('", "', $alt));
-                        }
-
-                        throw new SyntaxErrorException($message, $token->getLine(), $this->getFilename());
-                    }
-
-                    $this->stream->next();
-
-                    $node = $subparser->parse($token);
-
-                    if (null !== $node) {
-                        $rv[] = $node;
-                    }
-
-                    break;
-
-                default:
-                    throw new SyntaxErrorException('Lexer or parser ended up in unsupported state.', 0, $this->getFilename());
-            }
-        }
-
-        if (1 === count($rv)) {
-            return $rv[0];
-        }
-
-        return new Node($rv, array(), $lineno);
-    }
-
-    public function addHandler($name, $class)
-    {
-        $this->handlers[$name] = $class;
-    }
-
-    public function getBlockStack()
-    {
-        return $this->blockStack;
-    }
-
-    public function peekBlockStack()
-    {
-        return $this->blockStack[count($this->blockStack) - 1];
-    }
-
-    public function popBlockStack()
-    {
-        array_pop($this->blockStack);
-    }
-
-    public function pushBlockStack($name)
-    {
-        $this->blockStack[] = $name;
-    }
-
-    public function hasBlock($name)
-    {
-        return isset($this->blocks[$name]);
-    }
-
-    public function getBlock($name)
-    {
-        return $this->blocks[$name];
-    }
-
-    public function setBlock($name, BlockNode $value)
-    {
-        $this->blocks[$name] = new BodyNode(array($value), array(), $value->getLine());
-    }
-
-    public function isMainScope()
-    {
-        return 0 == count($this->blockStack);
+        return $out;
     }
 
     /**
-     * Gets the expression parser.
+     * Parse subscript.
      *
-     * @return ExpressionParser The expression parser
+     * @param  string $out
+     * @return string
      */
-    public function getExpressionParser()
+    public function parseSubscript($out)
     {
-        return $this->expressionParser;
-    }
+        while (true) {
+            if ($this->stream->nextIf('.')) {
 
-    public function getParent()
-    {
-        return $this->parent;
-    }
+                if (!$this->stream->test(T_STRING)) {
+                    $this->stream->prev();
+                    break;
+                }
 
-    public function setParent($parent)
-    {
-        $this->parent = $parent;
-    }
+                $val = $this->stream->next()->getValue();
+                $out = sprintf("\$this->getAttribute(%s, '%s'", $out, $val);
 
-    /**
-     * Gets the token stream.
-     *
-     * @return TokenStream The token stream
-     */
-    public function getStream()
-    {
-        return $this->stream;
-    }
+                if ($this->stream->test('(')) {
+                    $out .= sprintf(", array%s, 'method')", $this->parseExpression());
+                } else {
+                    $out .= ")";
+                }
 
-    /**
-     * Gets the current token.
-     *
-     * @return Token The current token
-     */
-    public function getCurrentToken()
-    {
-        return $this->stream->getCurrent();
-    }
+            } elseif ($this->stream->nextIf('[')) {
 
-    protected function filterBodyNodes(Node $node)
-    {
-        // check that the body does not contain non-empty output nodes
-        if (($node instanceof TextNode && !ctype_space($node->getAttribute('data'))) || (!$node instanceof TextNode && !$node instanceof BlockReferenceNode && $node instanceof NodeOutputInterface)) {
+                $exp = '';
 
-            if (false !== strpos((string) $node, chr(0xEF).chr(0xBB).chr(0xBF))) {
-                throw new SyntaxErrorException('A template that extends another one cannot have a body but a byte order mark (BOM) has been detected; it must be removed.', $node->getLine(), $this->getFilename());
-            }
+                while (!$this->stream->test(']')) {
+                    $exp .= $this->parseExpression();
+                }
 
-            throw new SyntaxErrorException('A template that extends another one cannot have a body.', $node->getLine(), $this->getFilename());
-        }
+                $this->stream->expect(']');
+                $this->stream->next();
 
-        // bypass "set" nodes as they "capture" the output
-        if ($node instanceof SetNode) {
-            return $node;
-        }
+                $out = sprintf("\$this->getAttribute(%s, %s, array(), 'array')", $out, $exp);
 
-        if ($node instanceof NodeOutputInterface) {
-            return;
-        }
-
-        foreach ($node as $k => $n) {
-            if (null !== $n && null === $this->filterBodyNodes($n)) {
-                $node->removeNode($k);
+            } else {
+                break;
             }
         }
 
-        return $node;
+        return $out;
     }
 }

@@ -2,24 +2,19 @@
 
 namespace Razr\Extension;
 
-use Razr\Environment;
+use Razr\Engine;
 
-/**
- * @copyright Copyright (c) 2009-2014 by the Twig Team
- */
 interface ExtensionInterface
 {
-    public function initRuntime(Environment $environment);
-
-    public function getTokenParsers();
-
-    public function getFilters();
-
-    public function getFunctions();
-
-    public function getOperators();
-
-    public function getGlobals();
-
+    /**
+     * Gets the name.
+     *
+     * @return string
+     */
     public function getName();
+
+    /**
+     * Initializes the extension.
+     */
+    public function initialize(Engine $engine);
 }

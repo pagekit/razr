@@ -1,1 +1,1 @@
-<p>Partial with @param<p>
+<p>Partial with @( $param )<p>

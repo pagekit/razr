@@ -2,7 +2,7 @@
 
 require __DIR__.'/autoload.php';
 
-use Razr\Environment;
+use Razr\Engine;
 use Razr\Loader\FilesystemLoader;
 
 // simple array
@@ -19,7 +19,7 @@ $object->artist = array('name' => 'The Beatles', 'homepage' => 'http://www.thebe
 $article = new Article('My article', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Me');
 
 // render template
-$razr = new Environment(new FilesystemLoader(__DIR__));
+$razr = new Engine(new FilesystemLoader(__DIR__));
 echo $razr->render('template.razr', array(
     'name'    => 'World',
     'pi'      => 3.14159265359,
@@ -27,5 +27,5 @@ echo $razr->render('template.razr', array(
     'now'     => new DateTime,
     'array'   => $array,
     'object'  => $object,
-    'article' => $article)
-);
+    'article' => $article
+));

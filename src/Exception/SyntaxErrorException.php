@@ -2,6 +2,6 @@
 
 namespace Razr\Exception;
 
-class SyntaxErrorException extends Exception
+class SyntaxErrorException extends RuntimeException
 {
 }

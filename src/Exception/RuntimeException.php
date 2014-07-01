@@ -2,6 +2,6 @@
 
 namespace Razr\Exception;
 
-class RuntimeException extends Exception
+class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
 }

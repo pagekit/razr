@@ -11,100 +11,20 @@
         <h1>Variables</h1>
 
         <!-- access object attributes with dot notation -->
-        <h2>@object.title</h2>
-        <p>by @object.artist.name, @object.artist.homepage</p>
+        <h2>@( $object.title )</h2>
+        <p>by @( $object.artist.name ), @( $object.artist.homepage )</p>
 
         <!-- access array attributes with dot or array notation -->
-        <h2>@array.title</h2>
-        <p>by @array.artist.name, @array['artist']['homepage']</p>
-
-        <hr>
-
-        <h1>Filters</h1>
-
-        <!-- uppercase -->
-        <p>Hello @name|upper !</p>
-
-        <!-- lowercase -->
-        <p>Hello @name|lower !</p>
-
-        <!-- format -->
-        <p>@('Hello %s !'|format(name))</p>
-
-        <!-- replace -->
-        <p>@('Hello -NAME- !'|replace(['-NAME-' => name]))</p>
-
-        <!-- date(format = null, timezone = null) -->
-        <p>@now|date('Y-m-d H:i:s')</p>
-
-        <!-- number(decimals = 0, decimalPoint = '.', thousandSep = ',') -->
-        <p>@pi|number(2)</p>
-
-        <!-- round(precision = 0, mode = 'common'|'ceil'|'floor') -->
-        <p>@pi|round</p>
-
-        <!-- absolute value -->
-        <p>@number|abs</p>
-
-        <!-- url encode -->
-        <p>@( 'value 1'|url_encode )</p>
-
-        <!-- json encode -->
-        <p>@array|json_encode</p>
-
-        <!-- trim -->
-        <p>@( ' trim '|trim )</p>
-
-        <!-- strip tags -->
-        <p>@( '<p>Hello World !</p>'|striptags )</p>
-
-        <!-- new line to br -->
-        <p>@( "new\nline"|nl2br )</p>
-
-        <!-- array length -->
-        <p>@( [1,2,3]|length )</p>
-
-        <!-- array keys -->
-        <p>@( ['a' => 1, 'b' => '2']|keys|implode(',') )</p>
-
-        <!-- array merge(array, array ...) -->
-        <p>@( ['a' => 1]|merge(['b' => '2'])|implode(',') )</p>
-
-        <!-- array slice(start, length) -->
-        <p>@( ['a' => 1, 'b' => '2']|slice(0, 1)|implode(',') )</p>
-
-        <!-- array implode(glue = '')-->
-        <p>@( ['a' => 1, 'b' => '2']|implode(',') )</p>
-
-        <!-- array explode(delimiter, limit = 0) -->
-        <p>@( '1,2,3'|explode(',', 2)|implode('-') )</p>
-
-        <!-- escaping(strategy = 'html', charset = null) -->
-        <p>@( 'Here & there'|e )</p>
-        <p>@( 'Here & there'|escape )</p>
+        <h2>@( $array.title )</h2>
+        <p>by @( $array.artist.name ), @( $array['artist']['homepage'] )</p>
 
         <hr>
 
         <h1>Functions</h1>
 
-        <!-- max(array) -->
-        <p>@max([1, 3, 2])</p>
-
-        <!-- min(array) -->
-        <p>@min([1, 3, 2])</p>
-
-        <!-- range(low, high, step) -->
-        <p>@range(0, 10, 2)|implode(',')</p>
-
-        <!-- date(date = null, timezone = null) -->
-        <p>@date|date('F d, Y')</p>
-
         <!-- constant('Namespace\Classname::NAME') or constant('NAME', object) -->
-        <p>@constant('Article::NAME')</p>
-        <p>@constant('NAME', article)</p>
-
-        <!-- dump((mixed) variable) -->
-        <p>@dump(name)</p>
+        <p>@( constant('Article::NAME') )</p>
+        <p>@( constant('NAME', $article) )</p>
 
         <!-- include((string) template, (array) params) -->
         <p>@include('partial.razr', ['param' => 'parameter'])</p>
@@ -114,9 +34,9 @@
         <h1>Example</h1>
 
         <article>
-            <h2>@article.title</h2>
-            <p>Written by @article.author on @article.date|date('F d, Y')</p>
-            <p>@article.content</p>
+            <h2>@( $article.title )</h2>
+            <p>Written by @( $article.author )</p>
+            <p>@( $article.content )</p>
         </article>
 
     </body>
