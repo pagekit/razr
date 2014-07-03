@@ -1,0 +1,7 @@
+<h1>Parent template</h1>
+
+@block('contentblock')
+    <p>Parent content.</p>
+@endblock
+
+<p>Parent content outside of the block.</p>

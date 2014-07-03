@@ -20,6 +20,11 @@ $article = new Article('My article', 'Lorem ipsum dolor sit amet, consectetur ad
 
 // render template
 $razr = new Engine(new FilesystemLoader(__DIR__));
+
+function hello($str) { echo "Hello ".$str; };
+
+// $razr->addFunction('hello', 'hello');
+
 echo $razr->render('template.razr', array(
     'name'    => 'World',
     'pi'      => 3.14159265359,

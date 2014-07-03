@@ -29,6 +29,9 @@
         <!-- include((string) template, (array) params) -->
         <p>@include('partial.razr', ['param' => 'parameter'])</p>
 
+        <!-- include with blocks -->
+        <p>@include('child.razr', ['param' => 'parameter'])</p>
+
         <hr>
 
         <h1>Example</h1>
