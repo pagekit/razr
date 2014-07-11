@@ -8,6 +8,7 @@ class TokenStream
 {
     protected $tokens;
     protected $current = 0;
+    protected $peek = 0;
 
     /**
      * Constructor.
@@ -34,6 +35,7 @@ class TokenStream
     /**
      * Get a token.
      *
+     * @param  int $number
      * @return Token|null
      */
     public function get($number = 0)
@@ -50,6 +52,7 @@ class TokenStream
      */
     public function next()
     {
+        $this->peek = 0;
         if (isset($this->tokens[$this->current])) {
             return $this->tokens[$this->current++];
         }
@@ -109,6 +112,55 @@ class TokenStream
         }
 
         return $token;
+    }
+
+    /**
+     * Resets the peek pointer to 0.
+     */
+    public function resetPeek()
+    {
+        $this->peek = 0;
+    }
+
+    /**
+     * Moves the peek token forward.
+     *
+     * @return Token|null
+     */
+    public function peek()
+    {
+        if (isset($this->tokens[$this->current + ++$this->peek])) {
+            return $this->tokens[$this->current + $this->peek];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Peeks until a token with the given type is found.
+     *
+     * @param  array|integer     $type
+     * @param  array|string|null $value
+     * @return Token|null
+     */
+    public function peekUntil($type, $value = null)
+    {
+        while($token = $this->peek() and !$token->test($type, $value)) {
+            $token = null;
+        }
+        return $token;
+    }
+
+    /**
+     * Peeks at the next token, returns it and immediately resets the peek.
+     *
+     * @return Token|null
+     */
+    public function glimpse()
+    {
+        $peek = $this->peek();
+        $this->peek = 0;
+        return $peek;
     }
 
     /**
