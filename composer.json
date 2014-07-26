@@ -1,8 +1,8 @@
 {
     "name": "pagekit/razr",
-    "type": "library",
     "description": "Razr - The powerful PHP template engine",
-    "keywords": ["templating"],
+    "keywords": ["templating", "pagekit"],
+    "homepage": "http://pagekit.com",
     "license": "MIT",
     "authors": [
         {
@@ -18,10 +18,10 @@
             "Razr\\": "src"
         }
     },
-    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "0.9-dev"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
