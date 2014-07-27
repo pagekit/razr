@@ -289,17 +289,21 @@ class Engine
             self::$classes[$class] = array_change_key_case(array_flip(get_class_methods($object)));
         }
 
-        if (!isset(self::$classes[$class][$item])) {
-            if (isset(self::$classes[$class]["get$item"])) {
-                $name = "get$name";
-            } elseif (isset(self::$classes[$class]["is$item"])) {
-                $name = "is$name";
-            } elseif (isset(self::$classes[$class]["__call"])) {
-                $call = true;
-            } else {
-                return null;
-            }
-        }
+		if (isset(self::$classes[$class]['__get'])) {
+            return $object->$name;
+        } else {
+	        if (!isset(self::$classes[$class][$item])) {
+    	        if (isset(self::$classes[$class]["get$item"])) {
+        	        $name = "get$name";
+            	} elseif (isset(self::$classes[$class]["is$item"])) {
+                	$name = "is$name";
+	            } elseif (isset(self::$classes[$class]["__call"])) {
+    	            $call = true;
+        	    } else {
+            	    return null;
+	            }
+    	    }
+		}
 
         try {
             return call_user_func_array(array($object, $name), $args);
